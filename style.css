@@ -75,8 +75,7 @@ input:focus, select:focus, button:focus-visible { outline: 2px solid var(--chinh
 
 .tabs { display: flex; gap: 6px; background: #e6ebf8; border-radius: 12px; padding: 4px; margin-bottom: 14px; }
 .tabs button {
-  white-space: nowrap;
-  font-size: 14px;
+  font-size: 13px;
   flex: 1;
   border: 0;
   background: transparent;
@@ -159,6 +158,74 @@ input:focus, select:focus, button:focus-visible { outline: 2px solid var(--chinh
   animation: quay .8s linear infinite;
 }
 @keyframes quay { to { transform: rotate(360deg); } }
+
+.tabs button span { display: block; font-size: 20px; }
+
+/* ---------- Trò chơi ---------- */
+.tc {
+  --tc-nen: #dff5fa; --tc-vien: #bfe3ec; --tc-teal: #0e9bb3; --tc-sun: #ffc83d; --tc-coral: #f2584b;
+  --tc-grape: #7458db; --tc-leaf: #22a565; --tc-pink: #e8509a; --tc-chu-vang: #3a2a00;
+  --tc-dung: #d9f5e5; --tc-sai: #ffe1dd;
+  --tc-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  font-family: "Nunito", "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+}
+.tc p { margin: 0; }
+.tc h2 { font-family: var(--tc-display); font-size: 1.5rem; line-height: 1.1; margin: 0; }
+.tc-vi { color: var(--mo); font-size: .92rem; }
+.tc-luoi { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.tc-o {
+  border: 0; cursor: pointer; text-align: left; color: #fff; border-radius: 26px; padding: 18px;
+  display: flex; flex-direction: column; gap: 6px; font-size: 1rem;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, .18); transition: transform .12s;
+}
+.tc-o:hover { transform: translateY(-3px); }
+.tc-o:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(0, 0, 0, .18); }
+.tc-o b { font-family: var(--tc-display); font-size: 1.45rem; font-weight: 800; }
+.tc-o small { font-weight: 700; }
+.tc-hinh { font-size: 3rem; line-height: 1; }
+.tc-tot { margin-top: 4px; font-weight: 800; }
+.tc-o0 { background: var(--tc-teal); } .tc-o1 { background: var(--tc-coral); } .tc-o2 { background: var(--tc-grape); }
+.tc-o3 { background: var(--tc-leaf); } .tc-o4 { background: var(--tc-pink); } .tc-o5 { background: var(--tc-sun); color: var(--tc-chu-vang); }
+.tc-san {
+  background: #fff; border: 3px solid var(--tc-vien); border-radius: 26px; padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.tc-hang { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.tc-giua { justify-content: center; }
+.tc-thanh { height: 14px; background: var(--tc-vien); border-radius: 999px; overflow: hidden; }
+.tc-thanh i { display: block; height: 100%; background: var(--tc-leaf); border-radius: 999px; transition: width .3s; }
+.tc-nut {
+  font-family: var(--tc-display); font-weight: 800; font-size: 1.15rem; border: 0; border-radius: 16px;
+  padding: 10px 20px; cursor: pointer; background: var(--tc-teal); color: #fff; box-shadow: 0 4px 0 rgba(0, 0, 0, .2);
+}
+.tc-nut.tc-vien { background: #fff; color: var(--chu); border: 3px solid var(--tc-vien); box-shadow: none; }
+.tc-nut.tc-vang { background: var(--tc-sun); color: var(--tc-chu-vang); }
+.tc-to { font-size: 5rem; line-height: 1; text-align: center; }
+.tc-q { font-family: var(--tc-display); font-size: 1.5rem; font-weight: 600; text-align: center; line-height: 1.2; }
+.tc-chon { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.tc-lc, .tc-chip {
+  font-family: inherit; font-weight: 800; color: var(--chu); background: var(--tc-nen);
+  border: 3px solid var(--tc-vien); cursor: pointer; min-width: 0; overflow-wrap: anywhere;
+}
+.tc-lc { font-size: 1.1rem; border-radius: 16px; padding: 12px; }
+.tc-chip { font-size: 1.15rem; border-radius: 14px; padding: 8px 14px; }
+.tc-chip.tc-am { font-size: 1.8rem; font-family: var(--tc-display); }
+.tc-lc.ok, .tc-chip.ok { background: var(--tc-dung); border-color: var(--tc-leaf); }
+.tc-lc.no, .tc-chip.no { background: var(--tc-sai); border-color: var(--tc-coral); }
+.tc-the { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; min-height: 56px; }
+.tc-khe { border: 3px dashed var(--tc-vien); border-radius: 18px; padding: 12px; }
+.tc-fb { border-radius: 16px; padding: 12px 16px; font-weight: 700; }
+.tc-fb.ok { background: var(--tc-dung); } .tc-fb.no { background: var(--tc-sai); }
+.tc-truyen { background: var(--tc-nen); border-radius: 18px; padding: 16px; font-size: 1.08rem; }
+.tc-khung { background: var(--tc-nen); border-radius: 18px; padding: 14px; font-weight: 700; }
+.tc-tick { display: flex; flex-direction: column; gap: 8px; }
+.tc-tick label { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 1rem; margin: 0; }
+.tc-tick input { width: 22px; height: 22px; flex: none; }
+.tc-gio { font-family: var(--tc-display); font-size: 2rem; font-weight: 800; color: var(--tc-coral); font-variant-numeric: tabular-nums; }
+.tc-nay { animation: tc-nay .35s; }
+@keyframes tc-nay { 0% { transform: scale(.9); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .tc-nay { animation: none; } .tc-o { transition: none; } }
 
 @media (max-width: 480px) {
   .cau-hoi { font-size: 18px; }

@@ -44,9 +44,9 @@
     } catch (e) { /* trình duyệt chặn lưu trữ: vẫn dùng được trong lần mở này */ }
   }
 
-  async function goi(hanhDong, duLieu) {
+  async function goi(hanhDong, duLieu, ngam) {
     var body = Object.assign({ action: hanhDong, token: st.phien && st.phien.token }, duLieu || {});
-    cho.hidden = false;
+    if (!ngam) cho.hidden = false;
     var j;
     try {
       // text/plain để trình duyệt không gửi yêu cầu kiểm tra trước (Apps Script không trả lời loại đó)
@@ -55,7 +55,7 @@
     } catch (e) {
       throw new Error('Không kết nối được máy chủ. Em kiểm tra mạng rồi thử lại nhé.');
     } finally {
-      cho.hidden = true;
+      if (!ngam) cho.hidden = true;
     }
     if (!j.ok) {
       if (j.code === 'DANG_NHAP') dangXuat();
@@ -122,6 +122,7 @@
 
   function dangXuat() {
     dungDongHo();
+    window.TroChoi.dung();
     luuPhien(null);
     st.cheDoVao = 'vao';
     st.nha = null;
@@ -149,19 +150,40 @@
   function veTrangChu() {
     var n = st.nha;
     var choNhan = n.thachDau.filter(function (t) { return t.vaiTro === 'nhan' && !t.xong; }).length;
-    var than = st.tab === 'choi' ? veTabChoi() : st.tab === 'dau' ? veTabThachDau() : veTabXepHang();
+    var than = st.tab === 'choi' ? veTabChoi() : st.tab === 'game' ? veTabTroChoi() : st.tab === 'dau' ? veTabThachDau() : veTabXepHang();
     app.innerHTML =
       '<div class="dau"><h1>👋 Chào ' + esc(n.toi.ten) + '</h1>' +
       '<button class="nut phu nho" data-act="dangXuat">Đăng xuất</button></div>' +
       '<div class="tabs">' +
-      nutTab('choi', '📚 Tự chơi') +
-      nutTab('dau', '⚔️ Thách đấu' + (choNhan ? ' <span class="cham">' + choNhan + '</span>' : '')) +
-      nutTab('hang', '🏆 Xếp hạng') +
+      nutTab('choi', '📚', 'Luyện tập') +
+      nutTab('game', '🎮', 'Trò chơi') +
+      nutTab('dau', '⚔️', 'Thách đấu' + (choNhan ? ' <span class="cham">' + choNhan + '</span>' : '')) +
+      nutTab('hang', '🏆', 'Xếp hạng') +
       '</div>' + than;
   }
 
-  function nutTab(ma, nhan) {
-    return '<button data-act="tab" data-v="' + ma + '" class="' + (st.tab === ma ? 'chon' : '') + '">' + nhan + '</button>';
+  function nutTab(ma, hinh, nhan) {
+    return '<button data-act="tab" data-v="' + ma + '" class="' + (st.tab === ma ? 'chon' : '') + '"><span>' + hinh + '</span>' + nhan + '</button>';
+  }
+
+  /* ---------- Trò chơi (nội dung nằm trong games.js) ---------- */
+
+  function veTabTroChoi() {
+    return '<p class="mo">Chơi để luyện tập. Điểm cao nhất của mỗi trò được cộng vào bảng xếp hạng.</p>' + window.TroChoi.veO(st.nha.troChoi);
+  }
+
+  function moTroChoi(viTri) {
+    app.innerHTML = '<div id="san"></div>';
+    window.TroChoi.choi(viTri, document.getElementById('san'), {
+      xong: function (ten, diem, tong, giay) {
+        // Lưu ngầm: lỗi mạng không được làm gián đoạn màn hình kết quả
+        goi('luuTroChoi', { ten: ten, diem: diem, tong: tong, giay: giay }, true).catch(function () {});
+      },
+      thoat: function () {
+        st.tab = 'game';
+        taiTrangChu().catch(baoLoi);
+      }
+    });
   }
 
   function veTabChoi() {
@@ -364,6 +386,9 @@
       if (!confirm(nhac)) return;
       dungDongHo();
       taiTrangChu().catch(baoLoi);
+    },
+    game: function (el) {
+      moTroChoi(+el.dataset.v);
     },
     veNha: function () {
       taiTrangChu().catch(baoLoi);
