@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Trang đã chuyển địa chỉ</title>
-<script>
-// Link cũ miathoday.github.io/Hoc-Tap/<đường dẫn> → địa chỉ mới 
+<script>function go(to){var d={},n=0;try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(/^(btvn-|yumiLib\.|vy-grammar-path|hoctap_)/.test(k)){d[k]=localStorage.getItem(k);n++;}}}catch(e){}
+var s=n?encodeURIComponent(JSON.stringify(d)):'';location.replace(s&&s.length<1500000?'https://yumienglish.github.io/move/#to='+encodeURIComponent(to)+'&d='+s:to);}
+// Link cũ miathoday.github.io/Hoc-Tap/<đường dẫn> → địa chỉ mới
 var p = location.pathname.replace(/^\/Hoc-Tap\/?/, '');
 var to = 'https://yumienglish.github.io/Hoc-Tap/' + p;
-location.replace(to + location.search + location.hash);
+go(to + location.search + location.hash);
 </script></head><body><p>Đang chuyển sang địa chỉ mới…</p></body></html>
